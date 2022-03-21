@@ -7,10 +7,6 @@
   padding-top: 70px;
 }
 
-.cards__container {
-
-}
-
 @media screen  and (min-width: 767px) and (max-width: 1200px) {
   .cards {
     width: 708px;

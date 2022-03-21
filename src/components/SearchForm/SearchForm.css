@@ -30,6 +30,11 @@
   background: center center no-repeat url("../../image/search-button.svg");
   border: none;
   cursor: pointer;
+  transition: opacity 0.2s linear;
+}
+
+.search-form__button:hover {
+  opacity: 0.6;
 }
 
 .search-form__wrapper {

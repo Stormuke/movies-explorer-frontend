@@ -59,6 +59,11 @@
   background-color: rgba(66, 133, 244, 1);
   padding: 13px 0;
   margin-top: 179px;
+  transition: opacity 0.2s linear;
+}
+
+.sign__submit:hover {
+  opacity: 0.6;
 }
 
 .sign__submit_type_small {
@@ -79,6 +84,11 @@
   text-decoration: none;
   font-size: 14px;
   line-height: 16.94px;
+  transition: opacity 0.2s linear;
+}
+
+.sign__button:hover {
+  opacity: 0.6;
 }
 
 @media screen and (min-width: 767px) and (max-width: 1200px) {

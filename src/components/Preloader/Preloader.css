@@ -13,6 +13,11 @@
   background-color: rgba(47, 47, 47, 1);
   padding: 11px 0 9px;
   cursor: pointer;
+  transition: opacity 0.3s linear;
+}
+
+.preloader__button:hover {
+  opacity: 0.6;
 }
 
 @media screen and (min-width: 767px) and (max-width: 1200px){

@@ -61,6 +61,12 @@
   border-radius: 10px;
   width: 90px;
   text-align: center;
+  cursor: pointer;
+  transition: opacity 0.2s linear;
+}
+
+.techs__button:hover {
+  opacity: 0.6;
 }
 
 @media screen and (min-width: 767px) and (max-width: 1200px){
