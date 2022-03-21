@@ -1,0 +1,15 @@
+@import "./vendor/normalize.css";
+@import "vendor/fonts.css";
+
+body {
+  background-color: rgba(32, 32, 32, 1);
+  color: rgba(255, 255, 255, 1);
+  margin: 0;
+  font-family: "Inter", "Arial", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+*::-webkit-scrollbar {
+  display: none;
+}
