@@ -68,6 +68,7 @@
 .line__title_type_s {
   background-color: rgba(61, 220, 132, 1);
   width: 228px;
+  color: rgba(0, 0, 0, 1);
 }
 
 .line__title_type_m {
@@ -82,7 +83,7 @@
   color: rgba(139, 139, 139, 1);
 }
 
-@media screen and (max-width: 769px) {
+@media screen and (min-width: 767px) and (max-width: 1200px) {
   .about-project {
     width: 668px;
   }

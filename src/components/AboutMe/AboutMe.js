@@ -17,7 +17,7 @@ function AboutMe() {
           </p>
           <div className="description__links">
             {mainConstants.aboutMeLinks.map((item, id) => {
-              return <a href={item.link} className="description__link" key={id}>{item.title}</a>
+              return <a href={item.link} target="_blank" className="description__link" key={id}>{item.title}</a>
             })}
           </div>
         </div>
