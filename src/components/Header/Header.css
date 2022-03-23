@@ -1,10 +1,11 @@
 .header {
   display: flex;
   justify-content: space-between;
-  width: 1140px;
+  width: 92%;
   margin: 0 auto;
   align-items: center;
   padding: 18px 0;
+  position: relative;
 }
 
 .header__container {
@@ -62,9 +63,18 @@
   color: #000;
 }
 
-@media screen and (min-width: 767px) and (max-width: 1200px) {
+.header__burger {
+  display: block;
+  padding: 0;
+  background: center center url("../../image/burger.svg");;
+  width: 40px;
+  height: 43px;
+  border: none;
+}
+
+@media screen and (min-width: 767px) and (max-width: 1279px) {
   .header {
-    width: 708px;
+    width: 92%;
   }
 
   .header__container {
@@ -85,7 +95,7 @@
 
 @media screen and (min-width: 320px) and (max-width: 767px) {
   .header {
-    width: 292px;
+    width: 91%;
   }
 
   .header__container {

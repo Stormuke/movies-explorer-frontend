@@ -91,7 +91,7 @@
   opacity: 0.6;
 }
 
-@media screen and (min-width: 767px) and (max-width: 1200px) {
+@media screen and (min-width: 767px) and (max-width: 1279px) {
   .sign {
     width: 396px;
     padding: 232px 0;

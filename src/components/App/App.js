@@ -8,12 +8,24 @@ import SavedMovies from "../SavedMovies/SavedMovies";
 import Profile from "../Profile/Profile";
 import NotFound from "../NotFound/NotFound";
 import Sign from "../Sign/Sign";
+import SideBar from "../SideBar/SideBar";
+import {useState} from "react";
 
 
 function App() {
+  const [isSideBarActive, setIsSideBarActive] = useState(false);
+
+  function handleSideBarOpen() {
+    setIsSideBarActive(true)
+  }
+
+  function handleCloseSideBar() {
+    setIsSideBarActive(false)
+  }
+
   return (
     <div className="App">
-      <Header/>
+      <Header onSideBarOpen={handleSideBarOpen}/>
       <Routes>
         <Route path="/" element={
           <Main/>
@@ -38,6 +50,9 @@ function App() {
         }/>
       </Routes>
       <Footer/>
+      <SideBar
+        isOpen={isSideBarActive}
+        onClose={handleCloseSideBar}/>
     </div>
   );
 }

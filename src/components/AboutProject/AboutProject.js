@@ -16,11 +16,11 @@ function AboutProject() {
           })}
       </div>
       <div className="line">
-        <div className="line__container">
+        <div className="line__container line__container_type_s">
           <p className="line__title line__title_type_s">1 неделя</p>
           <p className="line__subtitle">Back-end</p>
         </div>
-        <div className="line__container">
+        <div className="line__container line__container_type_l">
           <p className="line__title line__title_type_m">4 недели</p>
           <p className="line__subtitle">Front-end</p>
         </div>

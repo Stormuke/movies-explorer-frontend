@@ -92,7 +92,7 @@
   text-decoration: underline;
 }
 
-@media screen and (min-width: 767px) and (max-width: 1200px){
+@media screen and (min-width: 767px) and (max-width: 1279px){
   .profile {
     min-height: 552px;
   }
