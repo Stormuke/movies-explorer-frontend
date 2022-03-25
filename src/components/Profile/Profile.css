@@ -1,0 +1,124 @@
+.profile {
+  min-height: 590px;
+}
+
+.profile__container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+}
+
+.profile__form {
+  width: 410px;
+  margin: 74px auto 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.profile__header {
+  margin: 0 0 123px;
+  text-align: center;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 29px;
+
+}
+
+.profile__form-input {
+  font-size: 11px;
+  line-height: 13.31px;
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(66, 66, 66, 1);
+  margin-bottom: 17px;
+
+}
+
+.profile__form-input:last-of-type {
+  border: 0;
+  padding: 0;
+  margin-bottom: 220px;
+}
+
+.profile__label {
+  font-weight: 500;
+
+}
+
+.profile__input {
+  padding: 0;
+  font-weight: 400;
+  background-color: transparent;
+  border: 0;
+  color: rgba(255, 255, 255, 1);
+  max-width: 100%;
+  text-align: right;
+}
+
+.profile__submit {
+  padding: 0;
+  margin: 0 auto;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 16px;
+  border: 0;
+  background-color: transparent;
+  color: white;
+  cursor: pointer;
+  transition: opacity 0.2s linear;
+}
+
+.profile__submit:hover{
+  opacity: 0.6;
+  text-decoration: underline;
+}
+
+.profile__signout {
+  margin: 0 auto;
+  color: rgba(238, 52, 101, 1);
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 16px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity 0.2s linear;
+}
+
+.profile__signout:hover{
+  opacity: 0.6;
+  text-decoration: underline;
+}
+
+@media screen and (min-width: 767px) and (max-width: 1279px){
+  .profile {
+    min-height: 552px;
+  }
+}
+
+@media screen and (min-width: 320px) and (max-width: 767px){
+  .profile {
+    min-height: 552px;
+  }
+
+  .profile__header {
+    font-size: 24px;
+    line-height: 29.05px;
+  }
+
+  .profile__form {
+    width: 260px;
+  }
+
+  .profile__submit {
+    font-size: 12px;
+    line-height: 14.52px;
+  }
+
+  .profile__signout {
+    font-size: 12px;
+    line-height: 14.52px;
+  }
+}

@@ -1,0 +1,33 @@
+.preloader {
+  padding: 50px 0 80px;
+}
+
+.preloader__button {
+  width: 1140px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  border-radius: 6px;
+  border: none;
+  color: white;
+  background-color: rgba(47, 47, 47, 1);
+  padding: 11px 0 9px;
+  cursor: pointer;
+  transition: opacity 0.3s linear;
+}
+
+.preloader__button:hover {
+  opacity: 0.6;
+}
+
+@media screen and (min-width: 767px) and (max-width: 1279px){
+  .preloader__button {
+    width: 92%;
+  }
+}
+
+@media screen and (min-width: 320px) and (max-width: 767px){
+  .preloader__button {
+    width: 93.8%;
+  }
+}
