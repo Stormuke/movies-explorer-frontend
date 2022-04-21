@@ -1,13 +1,13 @@
 import MoviesCard from "../MoviesCard/MoviesCard";
 import "./MoviesCards.css"
 
-function MoviesCards({movies}) {
+function MoviesCards({movieCards, onSave, onDelete, savedMovies}) {
   return (
     <section className="cards">
-      {movies.map((card, id) => {
+      {movieCards.map((card, id ) => {
         return (
-          <div className="cards__container" key={id}>
-            <MoviesCard title={card.title} link={card.link} duration={card.duration} isLiked={card.isLiked} owner={card.owner}/>
+          <div className="cards__container" key={card.id ? card.id : id}>
+            <MoviesCard card={card} isLiked={card.isLiked} onSave={onSave} onDelete={onDelete} savedMovies={savedMovies}/>
           </div>
 
         )

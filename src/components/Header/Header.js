@@ -2,7 +2,7 @@ import {Link, useLocation} from "react-router-dom";
 import "./Header.css"
 import {useEffect, useState} from "react";
 
-function Header({onSideBarOpen}) {
+function Header({onSideBarOpen, isLogged}) {
 
   const pathName = useLocation();
 
@@ -41,13 +41,13 @@ function Header({onSideBarOpen}) {
     <section className="header">
       <div className="header__container">
         <Link to="/" className="header__logo" onClick={() => pathName}/>
-        {pathName.pathname !== "/" &&
+        {isLogged &&
         (width >= 1280 && <div className="header__navigation">
           <Link className="header__button" to="/movies" onClick={() => pathName}>Фильмы</Link>
           <Link className="header__button" to="/saved-movies" onClick={() => pathName}>Сохранённые фильмы</Link>
         </div>)}
       </div>
-      {pathName.pathname === "/" ?
+      {!isLogged ?
         <div className="header__container">
           <Link to="/signup" className="header__button">Регистрация</Link>
           <Link to="/signin" className="header__button header__button_type_signin">Войти</Link>
