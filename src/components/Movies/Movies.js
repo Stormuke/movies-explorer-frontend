@@ -1,13 +1,12 @@
 import SearchForm from "../SearchForm/SearchForm";
 import MoviesCards from "../MoviesCards/MoviesCards";
-import Preloader from "../Preloader/Preloader";
 
-function Movies({movieCards, onSave, savedMovies}) {
+function Movies({movieCards, onSave, savedMovies, handleSearch, durationFilter, listLength, addMovies}) {
+
   return(
     <>
-      <SearchForm/>
-      <MoviesCards movieCards={movieCards} onSave={onSave} savedMovies={savedMovies}/>
-      <Preloader/>
+      <SearchForm handleSearch={handleSearch} durationFilter={durationFilter}/>
+      <MoviesCards movieCards={movieCards} onSave={onSave} savedMovies={savedMovies} listLength={listLength} addMovies={addMovies}/>
     </>
   )
 }
