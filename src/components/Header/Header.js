@@ -1,38 +1,11 @@
 import {Link, useLocation} from "react-router-dom";
 import "./Header.css"
-import {useEffect, useState} from "react";
 
-function Header({onSideBarOpen, isLogged}) {
+function Header({onSideBarOpen, isLogged, useWindowDimensions}) {
 
   const pathName = useLocation();
 
-  function getWindowDimensions() {
-    const {innerWidth: width} = window;
-    return {
-      width
-    };
-  }
-
-  function useWindowDimensions() {
-    const [windowDimensions, setWindowDimensions] = useState(
-      getWindowDimensions()
-    );
-
-    useEffect(() => {
-      function handleResize() {
-        setWindowDimensions(getWindowDimensions());
-      }
-
-      window.addEventListener("resize", handleResize);
-      return () => window.removeEventListener("resize", handleResize);
-    }, []);
-
-    return windowDimensions;
-  }
-
   const {width} = useWindowDimensions()
-
-
   return (
     (pathName.pathname === "/" ||
       pathName.pathname === "/movies" ||
