@@ -63,7 +63,7 @@ function App() {
 
   /* Получение фильмов с апи, если есть токен */
   useEffect(() => {
-    if (jwt) {
+    if (jwt && (location.pathname === '/movies')) {
       MoviesApi.getMovies()
         .then(res => {
           localStorage.setItem('data', JSON.stringify(res));
@@ -79,7 +79,7 @@ function App() {
   }, [jwt, location])
 
   useEffect(() => {
-    if (jwt) {
+    if (jwt && (location.pathname === '/saved-movies')) {
       MainApi.getSavedFilms(jwt)
         .then(res => {
           localStorage.setItem('savedMovies', JSON.stringify(res.filter((i) => i.owner === currentUser._id)))
@@ -125,7 +125,7 @@ function App() {
       const nameEN = item.nameEN;
       const nameRU = item.nameRU.toLowerCase();
       return ((nameEN && nameEN.toLowerCase().includes(values) && (values !== '')) || (nameRU && nameRU.toLowerCase().includes(value) && (values !== '')))
-        && item
+        ? item : null
     });
 
     localStorage.setItem('filtered', JSON.stringify(filteredSearch));
@@ -141,7 +141,7 @@ function App() {
 
   useEffect(() => {
     const filteredMovies = JSON.parse(localStorage.getItem('filtered'));
-    if (filteredMovies) {
+    if (filteredMovies.length !== 0) {
       setLocalData(filteredMovies);
     } else {
       setLocalData([]);
@@ -152,7 +152,7 @@ function App() {
   const durationFilter = (checked) => {
     const filteredMovies = JSON.parse(localStorage.getItem('filtered'))
 
-    if (!checked) {
+    if (!checked && filteredMovies) {
       const shorts = filteredMovies.filter((item) => item.duration <= 40);
       setMovieCards(shorts);
     } else {
