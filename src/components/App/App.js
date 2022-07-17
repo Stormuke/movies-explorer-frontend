@@ -46,7 +46,7 @@ function App() {
           }
         })
         .catch((err) => {
-          console.log(`Не удалось получить токен: ${err}`)
+          alert(`Не удалось получить токен: ${err}`)
         })
     }
   }, [jwt])
@@ -56,6 +56,7 @@ function App() {
     if (jwt) {
       MainApi.getCurrentUser(jwt)
         .then(res => setCurrentUser(res.user))
+        .catch(err => alert(`Не удалось получить имя пользователя: ${err}`))
     }
   }, [isLoggedIn, jwt])
 
@@ -71,7 +72,7 @@ function App() {
           }
 
         })
-        .catch(err => console.log(err))
+        .catch(err => alert(`Не удалось получить список фильмов: ${err}`))
     }
 
   }, [jwt, location])
@@ -87,7 +88,7 @@ function App() {
             setLocalData(userMovies);
           }
         })
-        .catch(err => console.log(err))
+        .catch(err => alert(`Не удалось получить список сохраненных фильмов: ${err}`))
     }
   }, [jwt, location, currentUser._id])
 
@@ -128,7 +129,7 @@ function App() {
   const handleRegistration = (input) =>  {
     MainApi.registration(input)
       .then(() => navigate("/signin"))
-      .catch(err => console.log(err))
+      .catch(err => alert(`Произошла ошибка регистрации: ${err}`))
   }
 
   /* Функция логина */
@@ -140,7 +141,7 @@ function App() {
         setIsLoggedIn(true)
         navigate("/movies")
       })
-      .catch(err => console.log(err))
+      .catch(err => alert(`Произошла ошибка авторизации: ${err}`))
   }
 
   /* Поиск фильмов */
