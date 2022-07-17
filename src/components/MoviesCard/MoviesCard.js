@@ -2,10 +2,10 @@ import "./MoviesCard.css";
 import {useState} from "react";
 import {useLocation} from "react-router-dom";
 
-function MoviesCard({card, isLiked, onSave, onDelete, savedMovies}) {
+function MoviesCard({card, onSave, onDelete, savedMovies}) {
   const location = useLocation();
   const [isHover, setIsHover] = useState(false)
-  return(
+  return (
     <section className="card" onMouseEnter={(evt) => {
       evt.stopPropagation()
       setIsHover(true)

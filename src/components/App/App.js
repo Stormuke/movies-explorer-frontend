@@ -15,6 +15,7 @@ import * as MoviesApi from "../../utils/MoviesApi";
 import * as MainApi from "../../utils/MainApi";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import {CurrentUserContext} from "../../utils/CurrentUserContext";
+import {useWindowDimensions} from "../../utils/useWindowDimensions";
 
 function App() {
   const [isSideBarActive, setIsSideBarActive] = useState(false);
@@ -66,7 +67,7 @@ function App() {
       MoviesApi.getMovies()
         .then(res => {
           localStorage.setItem('data', JSON.stringify(res));
-          if ( location.pathname === '/movies') {
+          if (location.pathname === '/movies') {
             const allMovies = JSON.parse(localStorage.getItem('data'));
             setLocalData(allMovies);
           }
@@ -83,7 +84,7 @@ function App() {
         .then(res => {
           localStorage.setItem('savedMovies', JSON.stringify(res.filter((i) => i.owner === currentUser._id)))
 
-          if ( location.pathname === '/saved-movies' ) {
+          if (location.pathname === '/saved-movies') {
             const userMovies = JSON.parse(localStorage.getItem('savedMovies'));
             setLocalData(userMovies);
           }
@@ -93,40 +94,14 @@ function App() {
   }, [jwt, location, currentUser._id])
 
 
-
-  /* Кастомный хук для отслеживания размера экрана */
-  function getWindowDimensions() {
-    const {innerWidth: width} = window;
-    return {
-      width
-    };
-  }
-
-  function useWindowDimensions() {
-    const [windowDimensions, setWindowDimensions] = useState(
-      getWindowDimensions()
-    );
-
-    useEffect(() => {
-      function handleResize() {
-        setWindowDimensions(getWindowDimensions());
-      }
-
-      window.addEventListener("resize", handleResize);
-      return () => window.removeEventListener("resize", handleResize);
-    }, []);
-
-    return windowDimensions;
-  }
-
-  const { width } = useWindowDimensions()
+  const {width} = useWindowDimensions()
 
   /****************************
    *       Колбеки       *
    ***************************/
 
   /* Регистрация нового юзера */
-  const handleRegistration = (input) =>  {
+  const handleRegistration = (input) => {
     MainApi.registration(input)
       .then(() => navigate("/signin"))
       .catch(err => alert(`Произошла ошибка регистрации: ${err}`))
@@ -146,23 +121,23 @@ function App() {
 
   /* Поиск фильмов */
   const handleSearch = (value) => {
-        const filteredSearch = localData.filter((item) => {
-          const values = value.toLowerCase();
-          const nameEN = item.nameEN;
-          const nameRU = item.nameRU.toLowerCase();
-          return ((nameEN && nameEN.toLowerCase().includes(values) && (values !== '')) || (nameRU && nameRU.toLowerCase().includes(value) && (values !== '')))
-            && item
-        });
+    const filteredSearch = localData.filter((item) => {
+      const values = value.toLowerCase();
+      const nameEN = item.nameEN;
+      const nameRU = item.nameRU.toLowerCase();
+      return ((nameEN && nameEN.toLowerCase().includes(values) && (values !== '')) || (nameRU && nameRU.toLowerCase().includes(value) && (values !== '')))
+        && item
+    });
 
-        localStorage.setItem('filtered', JSON.stringify(filteredSearch));
+    localStorage.setItem('filtered', JSON.stringify(filteredSearch));
 
-        if (location.pathname === '/movies') {
-          setMovieCards(filteredSearch);
-        }
+    if (location.pathname === '/movies') {
+      setMovieCards(filteredSearch);
+    }
 
-        if (location.pathname === '/saved-movies') {
-          setSavedMovies(filteredSearch)
-        }
+    if (location.pathname === '/saved-movies') {
+      setSavedMovies(filteredSearch)
+    }
   }
 
   useEffect(() => {
@@ -214,7 +189,7 @@ function App() {
   }
 
   /* Удаление фильма */
-  const handleDeleteMovie = (card)  => {
+  const handleDeleteMovie = (card) => {
     const savedMovie = savedMovies.find(
       (item) => item.movieId === card.movieId
     );
@@ -228,7 +203,7 @@ function App() {
   }
 
   /* Редактирование профиля */
-  const handleEditProfile = (user) =>  {
+  const handleEditProfile = (user) => {
     MainApi.editCurrentUser(jwt, user)
       .then(res => setCurrentUser(res))
       .catch(err => console.log(err))
@@ -238,7 +213,7 @@ function App() {
   const handleSideBar = () => setIsSideBarActive(!isSideBarActive);
 
   /* Логаут */
-  const handleSignOut = ()  => {
+  const handleSignOut = () => {
     localStorage.removeItem('jwt');
     localStorage.removeItem('savedMovies');
     localStorage.removeItem('movieList');

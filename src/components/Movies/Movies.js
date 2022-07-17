@@ -3,10 +3,11 @@ import MoviesCards from "../MoviesCards/MoviesCards";
 
 function Movies({movieCards, onSave, savedMovies, handleSearch, durationFilter, listLength, addMovies}) {
 
-  return(
+  return (
     <>
       <SearchForm handleSearch={handleSearch} durationFilter={durationFilter}/>
-      <MoviesCards movieCards={movieCards} onSave={onSave} savedMovies={savedMovies} listLength={listLength} addMovies={addMovies}/>
+      <MoviesCards movieCards={movieCards} onSave={onSave} savedMovies={savedMovies} listLength={listLength}
+                   addMovies={addMovies}/>
     </>
   )
 }

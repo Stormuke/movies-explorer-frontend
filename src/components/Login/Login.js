@@ -5,7 +5,7 @@ import {useFormWithValidation} from "../../utils/formValidator";
 
 function Login({submit}) {
 
-  const { values, handleChange, isValid, resetForm } =
+  const {values, handleChange, isValid, resetForm} =
     useFormWithValidation();
 
   function handleSubmit(evt) {
@@ -16,7 +16,7 @@ function Login({submit}) {
     }
   }
 
-  return(
+  return (
     <section className="sign">
       <Link to="/" className="sign__logo"/>
       <div className="sign__container">
@@ -40,12 +40,12 @@ function Login({submit}) {
           </div>
           <button
             className="sign__submit"
-            type='submit' disabled={isValid === true ? false : true}>
+            type='submit' disabled={isValid !== true}>
             Войти
           </button>
         </form>
         <p className="sign__text">Ещё не зарегистрированы?
-          <Link to="/signup" className="sign__button" >Зарегистрироваться</Link>
+          <Link to="/signup" className="sign__button">Зарегистрироваться</Link>
         </p>
       </div>
     </section>

@@ -15,10 +15,10 @@ function Header({onSideBarOpen, isLogged, useWindowDimensions}) {
       <div className="header__container">
         <Link to="/" className="header__logo" onClick={() => pathName}/>
         {isLogged &&
-        (width >= 1280 && <div className="header__navigation">
-          <Link className="header__button" to="/movies" onClick={() => pathName}>Фильмы</Link>
-          <Link className="header__button" to="/saved-movies" onClick={() => pathName}>Сохранённые фильмы</Link>
-        </div>)}
+          (width >= 1280 && <div className="header__navigation">
+            <Link className="header__button" to="/movies" onClick={() => pathName}>Фильмы</Link>
+            <Link className="header__button" to="/saved-movies" onClick={() => pathName}>Сохранённые фильмы</Link>
+          </div>)}
       </div>
       {!isLogged ?
         <div className="header__container">

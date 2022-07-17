@@ -23,7 +23,7 @@ export function useFormWithValidation() {
     const name = target.name;
     const value = target.value;
     setValues({...values, [name]: value});
-    setErrors({...errors, [name]: target.validationMessage });
+    setErrors({...errors, [name]: target.validationMessage});
     setIsValid(target.closest("form").checkValidity());
   };
 
@@ -36,5 +36,5 @@ export function useFormWithValidation() {
     [setValues, setErrors, setIsValid]
   );
 
-  return { values, handleChange, errors, isValid, resetForm };
+  return {values, handleChange, errors, isValid, resetForm};
 }

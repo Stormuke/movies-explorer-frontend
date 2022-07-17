@@ -21,7 +21,7 @@ function Profile({signOut, onSubmit}) {
     onSubmit({name: userName, email: userEmail})
   }
 
-  return(
+  return (
     <section className="profile">
       <div className="profile__container">
         <form className="profile__form" onSubmit={handleSubmit}>
