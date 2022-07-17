@@ -141,10 +141,13 @@ function App() {
 
   useEffect(() => {
     const filteredMovies = JSON.parse(localStorage.getItem('filtered'));
-    if (filteredMovies.length !== 0) {
-      setLocalData(filteredMovies);
-    } else {
-      setLocalData([]);
+
+    if (filteredMovies) {
+      if (filteredMovies.length !== 0) {
+        setLocalData(filteredMovies);
+      } else {
+        setLocalData([]);
+      }
     }
   }, []);
 
