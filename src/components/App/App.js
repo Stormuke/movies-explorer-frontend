@@ -111,10 +111,9 @@ function App() {
   const handleLogin = (input) => {
     MainApi.login(input)
       .then((res) => {
-        console.log(res)
         localStorage.setItem('jwt', res.token)
         setIsLoggedIn(true)
-        navigate("/movies")
+        navigate("/")
       })
       .catch(err => alert(`Произошла ошибка авторизации: ${err}`))
   }
