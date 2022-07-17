@@ -20,7 +20,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy": "scp -r ./build/* stormuke@51.250.103.170:movies-frontend"
+    "deploy": "scp -r ./build/* stormuke@84.201.141.12:movies-frontend"
   },
   "eslintConfig": {
     "extends": [
