@@ -3,14 +3,13 @@ import {Link} from "react-router-dom";
 import {useFormWithValidation} from "../../utils/formValidator";
 
 
-function Sign({submit}) {
+function Sign({submit, isPending}) {
 
-  const {values, handleChange, isValid, resetForm} =
+  const {values, handleChange, isValid} =
     useFormWithValidation();
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    resetForm()
     if (isValid) {
       submit(values)
     }
@@ -28,7 +27,7 @@ function Sign({submit}) {
             </label>
             <input className='sign__input' type="text" placeholder="Имя"
                    id="name-input" name="name" minLength="2" maxLength="40" required
-                   onChange={handleChange}/>
+                   onChange={handleChange} />
           </div>
           <div className="sign__form-input">
             <label className="sign__label">
@@ -47,7 +46,8 @@ function Sign({submit}) {
                    onChange={handleChange}/>
           </div>
           <button
-            className="sign__submit sign__submit_type_small"
+            disabled={!isValid && isPending}
+            className={`sign__submit sign__submit_type_small ${!isValid && isPending && 'sign__submit_disabled'}`}
             type='submit'>
             Зарегистрироваться
           </button>
