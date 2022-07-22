@@ -3,7 +3,7 @@ import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import Movies from "../Movies/Movies";
 import Main from "../Main/Main";
-import {Route, Routes, useLocation, useNavigate} from "react-router-dom";
+import {Route, Routes, useNavigate} from "react-router-dom";
 import SavedMovies from "../SavedMovies/SavedMovies";
 import Profile from "../Profile/Profile";
 import NotFound from "../NotFound/NotFound";
@@ -17,21 +17,26 @@ import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import {CurrentUserContext} from "../../utils/CurrentUserContext";
 import {useWindowDimensions} from "../../utils/useWindowDimensions";
 
+import {SMALL_RES_CARD_COUNT, HIGH_RES_CARD_ADD_COUNT, MIDDLE_RES_CARD_COUNT, SMALL_RES_CARD_ADD_COUNT, HIGH_RES_CARD_COUNT, SHORT_FILMS} from "../../utils/helpConstants";
+
 function App() {
   const [isSideBarActive, setIsSideBarActive] = useState(false);
-  const [movieCards, setMovieCards] = useState([]);
-  const [savedMovies, setSavedMovies] = useState([]);
   const [currentUser, setCurrentUser] = useState({})
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [localData, setLocalData] = useState([]);
   const [moviesNumber, setMoviesNumber] = useState(0);
   const [listLength, setListLength] = useState(0);
+  const [isLoginPending, setIsLoginPending] = useState(Boolean(false))
 
+  /* стейты для работы с фильмами */
+  const [apiFilteredFilms, setApiFilteredFilms] = useState([]);
+  const [savedFilteredMovies, setSavedFilteredMovies] = useState([]);
+  const [localApiFilms, setLocalApiFilms] = useState([]);
+  const [localSavedMovies, setLocalSavedMovies] = useState([]);
+  const [allUsersSavedMovies, setAllUsersSavedMovies] = useState([])
 
   const jwt = localStorage.getItem("jwt")
 
   const navigate = useNavigate();
-  const location = useLocation();
 
   /****************************
    *       Работа с АПИ       *
@@ -59,40 +64,32 @@ function App() {
         .then(res => setCurrentUser(res.user))
         .catch(err => alert(`Не удалось получить имя пользователя: ${err}`))
     }
-  }, [isLoggedIn, jwt])
+  }, [jwt])
 
-  /* Получение фильмов с апи, если есть токен */
   useEffect(() => {
-    if (jwt && (location.pathname === '/movies')) {
+    if (jwt) {
       MoviesApi.getMovies()
         .then(res => {
           localStorage.setItem('data', JSON.stringify(res));
-          if (location.pathname === '/movies') {
-            const allMovies = JSON.parse(localStorage.getItem('data'));
-            setLocalData(allMovies);
-          }
-
+          const allMovies = JSON.parse(localStorage.getItem('data'));
+          setLocalApiFilms(allMovies);
         })
         .catch(err => alert(`Не удалось получить список фильмов: ${err}`))
     }
-
-  }, [jwt, location])
+  }, [jwt]);
 
   useEffect(() => {
-    if (jwt && (location.pathname === '/saved-movies')) {
+    if (jwt) {
       MainApi.getSavedFilms(jwt)
         .then(res => {
+          setAllUsersSavedMovies(res)
           localStorage.setItem('savedMovies', JSON.stringify(res.filter((i) => i.owner === currentUser._id)))
-
-          if (location.pathname === '/saved-movies') {
-            const userMovies = JSON.parse(localStorage.getItem('savedMovies'));
-            setLocalData(userMovies);
-          }
+          const userMovies = JSON.parse(localStorage.getItem('savedMovies'))
+          setLocalSavedMovies(userMovies)
         })
         .catch(err => alert(`Не удалось получить список сохраненных фильмов: ${err}`))
     }
-  }, [jwt, location, currentUser._id])
-
+  }, [jwt])
 
   const {width} = useWindowDimensions()
 
@@ -102,78 +99,89 @@ function App() {
 
   /* Регистрация нового юзера */
   const handleRegistration = (input) => {
+    setIsLoginPending(true)
     MainApi.registration(input)
-      .then(() => navigate("/signin"))
+      .then(() => {
+        handleLogin({email: input.email, password: input.password})
+      })
+      .then(() => navigate('/localSavedMovies'))
       .catch(err => alert(`Произошла ошибка регистрации: ${err}`))
+      .finally(() => setIsLoginPending(false))
   }
 
   /* Функция логина */
   const handleLogin = (input) => {
+    setIsLoginPending(true)
     MainApi.login(input)
       .then((res) => {
         localStorage.setItem('jwt', res.token)
         setIsLoggedIn(true)
-        navigate("/")
+        setTimeout(() => {navigate('/movies')}, 200)
       })
       .catch(err => alert(`Произошла ошибка авторизации: ${err}`))
+      .finally(() => setIsLoginPending(false))
   }
 
   /* Поиск фильмов */
   const handleSearch = (value) => {
-    const filteredSearch = localData.filter((item) => {
+    const filteredSearch = localApiFilms.filter((item) => {
       const values = value.toLowerCase();
       const nameEN = item.nameEN;
       const nameRU = item.nameRU.toLowerCase();
       return ((nameEN && nameEN.toLowerCase().includes(values) && (values !== '')) || (nameRU && nameRU.toLowerCase().includes(value) && (values !== '')))
         ? item : null
     });
-
     localStorage.setItem('filtered', JSON.stringify(filteredSearch));
-
-    if (location.pathname === '/movies') {
-      setMovieCards(filteredSearch);
-    }
-
-    if (location.pathname === '/saved-movies') {
-      setSavedMovies(filteredSearch)
-    }
+    setApiFilteredFilms(filteredSearch);
   }
 
-  useEffect(() => {
-    const filteredMovies = JSON.parse(localStorage.getItem('filtered'));
+  const handleSavedSearch = (value) => {
+    const filteredSearch = localSavedMovies.filter((card) => {
+      const values = value.toLowerCase();
+      const nameEN = card.nameEN;
+      const nameRU = card.nameRU.toLowerCase();
+      return ((nameEN && nameEN.toLowerCase().includes(values) && (values !== '')) || (nameRU && nameRU.toLowerCase().includes(value) && (values !== '')))
+        ? card : null
+    });
 
-    if (filteredMovies) {
-      if (filteredMovies.length !== 0) {
-        setLocalData(filteredMovies);
-      } else {
-        setLocalData([]);
-      }
-    }
-  }, []);
+    localStorage.setItem('savedFilter', JSON.stringify(filteredSearch));
+
+    setSavedFilteredMovies(filteredSearch);
+  }
 
   /* фильтрация по длине фильма */
   const durationFilter = (checked) => {
     const filteredMovies = JSON.parse(localStorage.getItem('filtered'))
 
     if (!checked && filteredMovies) {
-      const shorts = filteredMovies.filter((item) => item.duration <= 40);
-      setMovieCards(shorts);
+      const shorts = filteredMovies.filter((item) => item.duration <= SHORT_FILMS);
+      setApiFilteredFilms(shorts);
     } else {
-      setMovieCards(filteredMovies);
+      setApiFilteredFilms(filteredMovies);
     }
   };
+
+  const savedDurationFilter = (checked) => {
+    const savedFiltered = JSON.parse(localStorage.getItem('savedFilter'));
+    if (!checked && savedFiltered) {
+      const shorts = savedFiltered.filter((item) => item.duration <= SHORT_FILMS);
+      setSavedFilteredMovies(shorts);
+    } else {
+      setSavedFilteredMovies(savedFiltered);
+    }
+  }
 
   /* изменение отрисовки в зависимости от разрешения */
   useEffect(() => {
     if (width >= 1280) {
-      setMoviesNumber(4);
-      setListLength(12);
+      setMoviesNumber(HIGH_RES_CARD_ADD_COUNT);
+      setListLength(HIGH_RES_CARD_COUNT);
     } else if (width >= 768 && width <= 1279) {
-      setMoviesNumber(2);
-      setListLength(8);
+      setMoviesNumber(SMALL_RES_CARD_ADD_COUNT);
+      setListLength(MIDDLE_RES_CARD_COUNT);
     } else if (width <= 320 && width <= 480) {
-      setMoviesNumber(2);
-      setListLength(5);
+      setMoviesNumber(SMALL_RES_CARD_ADD_COUNT);
+      setListLength(SMALL_RES_CARD_COUNT);
     }
   }, [width])
 
@@ -186,29 +194,29 @@ function App() {
   const handleSaveMovie = (card) => {
     MainApi.saveMovie(card, jwt)
       .then(res => {
-        setSavedMovies([...savedMovies, res])
+          setLocalSavedMovies([...localSavedMovies, res])
+          setAllUsersSavedMovies([...allUsersSavedMovies, res])
       })
   }
 
   /* Удаление фильма */
   const handleDeleteMovie = (card) => {
-    const savedMovie = savedMovies.find(
-      (item) => item.movieId === card.movieId
-    );
     MainApi.deleteMovie(card, jwt)
       .then(() => {
-        const newCardArr = savedMovies.filter(
-          (item) => item._id !== savedMovie._id
-        );
-        setSavedMovies(newCardArr)
+        setSavedFilteredMovies(savedFilteredMovies.filter((i) => i._id !== card._id))
+        setLocalSavedMovies(localSavedMovies.filter(i => i._id !== card._id))
+        setAllUsersSavedMovies(allUsersSavedMovies.filter((i) => i._id !== card._id))
       })
   }
 
   /* Редактирование профиля */
   const handleEditProfile = (user) => {
     MainApi.editCurrentUser(jwt, user)
-      .then(res => setCurrentUser(res))
-      .catch(err => console.log(err))
+      .then(res => {
+        setCurrentUser(res)
+        setTimeout(() => alert('Данные профиля успешно изменены'), 20)
+      })
+      .catch(err => alert(`Произошла ошибка редактирования профиля: ${err}`))
   }
 
   /* Состояние сайдбара */
@@ -219,6 +227,7 @@ function App() {
     localStorage.removeItem('jwt');
     localStorage.removeItem('savedMovies');
     localStorage.removeItem('movieList');
+    localStorage.removeItem('data')
     setIsLoggedIn(false);
     navigate('/');
   }
@@ -234,11 +243,15 @@ function App() {
           />
 
           <Route path="/signup" element={
-            <Sign submit={handleRegistration}/>
+            <ProtectedRoute loggedIn={!isLoggedIn}>
+              <Sign submit={handleRegistration} isPending={isLoginPending}/>
+            </ProtectedRoute>
           }/>
 
           <Route path="/signin" element={
-            <Login submit={handleLogin}/>
+            <ProtectedRoute loggedIn={!isLoggedIn}>
+              <Login submit={handleLogin} isPending={isLoginPending}/>
+            </ProtectedRoute>
           }/>
 
           <Route
@@ -249,8 +262,8 @@ function App() {
                   listLength={listLength}
                   durationFilter={durationFilter}
                   handleSearch={handleSearch}
-                  savedMovies={savedMovies}
-                  movieCards={movieCards}
+                  savedMovies={allUsersSavedMovies}
+                  movieCards={apiFilteredFilms}
                   onSave={handleSaveMovie}
                   addMovies={addMovies}
                 />
@@ -263,11 +276,12 @@ function App() {
             element={
               <ProtectedRoute loggedIn={isLoggedIn}>
                 <SavedMovies
-                  movieCards={savedMovies}
+                  movieCards={savedFilteredMovies}
                   onDelete={handleDeleteMovie}
                   listLength={listLength}
-                  durationFilter={durationFilter}
-                  handleSearch={handleSearch}
+                  durationFilter={savedDurationFilter}
+                  handleSearch={handleSavedSearch}
+                  addMovies={addMovies}
                 />
               </ProtectedRoute>
             }
