@@ -5,12 +5,11 @@ import {useFormWithValidation} from "../../utils/formValidator";
 
 function Login({submit}) {
 
-  const {values, handleChange, isValid, resetForm} =
+  const {values, handleChange, isValid} =
     useFormWithValidation();
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    resetForm()
     if (isValid) {
       submit(values)
     }
@@ -29,6 +28,7 @@ function Login({submit}) {
             <input className='sign__input' type="email" placeholder="Почта"
                    id="email-input" name="email" minLength="2" maxLength="40" required
                    onChange={handleChange}/>
+
           </div>
           <div className="sign__form-input">
             <label className="sign__label">
@@ -39,8 +39,8 @@ function Login({submit}) {
                    onChange={handleChange}/>
           </div>
           <button
-            className="sign__submit"
-            type='submit' disabled={isValid !== true}>
+            className={`sign__submit ${!isValid && 'sign__submit_disabled'}`}
+            type='submit' disabled={!isValid}>
             Войти
           </button>
         </form>
