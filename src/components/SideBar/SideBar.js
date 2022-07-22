@@ -9,7 +9,7 @@ function SideBar({isOpen, onClose}) {
     return pathName
   }
 
-  return(
+  return (
     <section className={`side-bar${isOpen ? " side-bar_show" : ""}`}>
       <button type="button" className="side-bar__close" onClick={onClose}/>
       <div className="side-bar__container">

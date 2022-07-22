@@ -1,12 +1,13 @@
-import savedCards from "../../utils/savedMoviesConstants";
 import MoviesCards from "../MoviesCards/MoviesCards";
 import SearchForm from "../SearchForm/SearchForm";
+import React from "react";
 
-function SavedMovies() {
+function SavedMovies({movieCards, onDelete, listLength, handleSearch, durationFilter, addMovies}) {
+
   return (
     <>
-      <SearchForm/>
-      <MoviesCards movies={savedCards}/>
+      <SearchForm handleSearch={handleSearch} durationFilter={durationFilter}/>
+      <MoviesCards movieCards={movieCards} onDelete={onDelete} listLength={listLength} addMovies={addMovies}/>
     </>
   )
 }

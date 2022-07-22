@@ -1,9 +1,9 @@
-import "./Sign.css"
+import "../Sign/Sign.css"
 import {Link} from "react-router-dom";
 import {useFormWithValidation} from "../../utils/formValidator";
 
 
-function Sign({submit, isPending}) {
+function Login({submit}) {
 
   const {values, handleChange, isValid} =
     useFormWithValidation();
@@ -20,15 +20,7 @@ function Sign({submit, isPending}) {
       <Link to="/" className="sign__logo"/>
       <div className="sign__container">
         <form className="sign__form" onSubmit={handleSubmit}>
-          <h2 className="sign__title">Добро пожаловать!</h2>
-          <div className="sign__form-input">
-            <label className="sign__label">
-              Имя
-            </label>
-            <input className='sign__input' type="text" placeholder="Имя"
-                   id="name-input" name="name" minLength="2" maxLength="40" required
-                   onChange={handleChange} />
-          </div>
+          <h2 className="sign__title">Рады видеть!</h2>
           <div className="sign__form-input">
             <label className="sign__label">
               Почта
@@ -36,6 +28,7 @@ function Sign({submit, isPending}) {
             <input className='sign__input' type="email" placeholder="Почта"
                    id="email-input" name="email" minLength="2" maxLength="40" required
                    onChange={handleChange}/>
+
           </div>
           <div className="sign__form-input">
             <label className="sign__label">
@@ -46,18 +39,17 @@ function Sign({submit, isPending}) {
                    onChange={handleChange}/>
           </div>
           <button
-            disabled={!isValid && isPending}
-            className={`sign__submit sign__submit_type_small ${!isValid && isPending && 'sign__submit_disabled'}`}
-            type='submit'>
-            Зарегистрироваться
+            className={`sign__submit ${!isValid && 'sign__submit_disabled'}`}
+            type='submit' disabled={!isValid}>
+            Войти
           </button>
         </form>
-        <p className="sign__text">Уже зарегистрированы?
-          <Link to="/signin" className="sign__button">Войти</Link>
+        <p className="sign__text">Ещё не зарегистрированы?
+          <Link to="/signup" className="sign__button">Зарегистрироваться</Link>
         </p>
       </div>
     </section>
   )
 }
 
-export default Sign;
+export default Login;

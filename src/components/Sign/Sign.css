@@ -59,6 +59,7 @@
   background-color: rgba(66, 133, 244, 1);
   padding: 13px 0;
   margin-top: 179px;
+  cursor: pointer;
   transition: opacity 0.2s linear;
 }
 
@@ -89,6 +90,12 @@
 
 .sign__button:hover {
   opacity: 0.6;
+}
+
+.sign__submit_disabled {
+  opacity: 0.6;
+  background-color: rgba(139, 139, 139, 1);
+  cursor: not-allowed;
 }
 
 @media screen and (min-width: 767px) and (max-width: 1279px) {

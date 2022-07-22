@@ -1,9 +1,9 @@
 import "./Preloader.css"
 
-function Preloader() {
-  return(
+function Preloader({addMovies}) {
+  return (
     <div className="preloader">
-      <button className="preloader__button">Еще</button>
+      <button onClick={() => addMovies()} className="preloader__button">Еще</button>
     </div>
   )
 }

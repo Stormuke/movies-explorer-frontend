@@ -53,7 +53,18 @@
   cursor: pointer;
   width: 36px;
   height: 20px;
+}
+
+.search-form__toggle_on {
   background: center center no-repeat url("../../image/toggle.svg");
+}
+
+.search-form__toggle_off {
+  background: center center no-repeat url("../../image/toggleShort.svg");
+}
+
+.search-form__checkbox {
+  display: none;
 }
 
 .search-form__text {

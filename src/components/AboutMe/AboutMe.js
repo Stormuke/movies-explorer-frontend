@@ -3,7 +3,7 @@ import mainConstants from "../../utils/mainConstants";
 import photo from "../../image/photo_2021-11-16_11-46-50.jpg"
 
 function AboutMe() {
-  return(
+  return (
     <section className="about-me">
       <h2 className="about-me__title" id="student">Студент</h2>
       <div className="about-me__container">
