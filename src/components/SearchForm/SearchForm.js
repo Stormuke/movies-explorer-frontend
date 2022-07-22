@@ -1,15 +1,22 @@
 import "./SearchForm.css";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
+import {useLocation} from "react-router-dom";
 
 function SearchForm({handleSearch, durationFilter}) {
   const [checked, setChecked] = useState(false)
   const [value, setValue] = useState('')
 
+  const location = useLocation()
+
   const handleSubmitForm = (e) => {
     e.preventDefault()
-
     handleSearch(value)
   }
+
+  useEffect(() => {
+    handleSearch(value)
+    setValue('')
+  }, [location])
 
   return (
     <section className="search-form">
