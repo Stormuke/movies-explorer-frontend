@@ -14,8 +14,10 @@ function SearchForm({handleSearch, durationFilter}) {
   }
 
   useEffect(() => {
-    handleSearch(value)
-    setValue('')
+    if (location.pathname === '/saved-movies') {
+      handleSearch(value)
+      setValue('')
+    }
   }, [location])
 
   return (
