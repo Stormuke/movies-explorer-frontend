@@ -1,13 +1,13 @@
 import SearchForm from "../SearchForm/SearchForm";
 import MoviesCards from "../MoviesCards/MoviesCards";
 
-function Movies({movieCards, onSave, savedMovies, handleSearch, durationFilter, listLength, addMovies}) {
+function Movies({movieCards, onSave, savedMovies, handleSearch, durationFilter, listLength, addMovies, onDelete, currentUser}) {
 
   return (
     <>
       <SearchForm handleSearch={handleSearch} durationFilter={durationFilter}/>
       <MoviesCards movieCards={movieCards} onSave={onSave} savedMovies={savedMovies} listLength={listLength}
-                   addMovies={addMovies}/>
+                   addMovies={addMovies} onDelete={onDelete} currentUser={currentUser}/>
     </>
   )
 }
