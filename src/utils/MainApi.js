@@ -85,12 +85,12 @@ export function saveMovie(movie, jwt) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      country: movie.country,
+      country: movie.country ?? '1',
       description: movie.description,
       director: movie.director,
       duration: movie.duration,
       image: `https://api.nomoreparties.co${movie.image.url}`,
-      nameEN: movie.nameEN,
+      nameEN: movie.nameEN ?? movie.nameRU,
       nameRU: movie.nameRU,
       trailerLink: movie.trailerLink
         ? movie.trailerLink
