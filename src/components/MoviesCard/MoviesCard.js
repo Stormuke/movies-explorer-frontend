@@ -2,7 +2,7 @@ import "./MoviesCard.css";
 import {useState} from "react";
 import {useLocation} from "react-router-dom";
 
-function MoviesCard({card, onSave, onDelete, savedMovies}) {
+function MoviesCard({card, onSave, onDelete, savedMovies, currentUser}) {
   const location = useLocation();
   const [isHover, setIsHover] = useState(false)
   return (
@@ -23,20 +23,21 @@ function MoviesCard({card, onSave, onDelete, savedMovies}) {
             <p className="card__text">
               {card.nameRU}
             </p>
-            <button
-              className={`card__like ${location.pathname === "/movies" ?
-                (card.id && savedMovies.some((m) => m.movieId === card.id) ? "card__like_type_liked" : "card__like_type_disliked")
-                : isHover && "card__like_type_delete"}`}
+            {location.pathname === "/movies" && <button
+              className={`card__like ${(savedMovies.some((m) => m.movieId === card.id) ? "card__like_type_liked" : "card__like_type_disliked")}`}
               onClick={() => {
-                if (location.pathname === "/movies") {
-                  onSave(card)
-                }
-                if (location.pathname === "/saved-movies") {
-                  onDelete(card)
-                }
+                onSave(card)
               }
               }
-            />
+            />}
+            {(location.pathname === "/saved-movies") && <button
+              className={`card__like ${isHover && 'card__like_type_delete'}`}
+              onClick={() => {
+                onDelete(card)
+              }
+              }
+            />}
+
           </div>
           <p className="card__duration">
             {card.duration}
