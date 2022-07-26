@@ -27,14 +27,11 @@ function App() {
   const [listLength, setListLength] = useState(0);
   const [isLoginPending, setIsLoginPending] = useState(Boolean(false))
 
-  const [allLikesAnotherUsers, setAllLikesAnotherUsers] = useState([])
-
   /* стейты для работы с фильмами */
   const [apiFilteredFilms, setApiFilteredFilms] = useState([]);
   const [savedFilteredMovies, setSavedFilteredMovies] = useState([]);
   const [localApiFilms, setLocalApiFilms] = useState([]);
   const [localSavedMovies, setLocalSavedMovies] = useState([]);
-  const [allUsersSavedMovies, setAllUsersSavedMovies] = useState([])
 
   const jwt = localStorage.getItem("jwt")
 
@@ -85,8 +82,6 @@ function App() {
     if (jwt && currentUser !== null) {
       MainApi.getSavedFilms(jwt)
         .then(res => {
-          setAllUsersSavedMovies(res)
-          setAllLikesAnotherUsers(res.filter((i) => i.owner !== currentUser._id))
           localStorage.setItem('savedMovies', JSON.stringify(res.filter((i) => i.owner === currentUser._id)))
           const userMovies = JSON.parse(localStorage.getItem('savedMovies'))
           setLocalSavedMovies(userMovies)
@@ -110,7 +105,7 @@ function App() {
       .then(() => {
         handleLogin({email: input.email, password: input.password})
       })
-      .then(() => navigate('/localSavedMovies'))
+      .then(() => navigate('/movies'))
       .catch(err => alert(`Произошла ошибка регистрации: ${err}`))
       .finally(() => setIsLoginPending(false))
   }
@@ -139,9 +134,9 @@ function App() {
         || (nameRU && nameRU.toLowerCase().includes(value) && (values !== ''))
             ? item : null})
 
-      localStorage.setItem('filtered', JSON.stringify(filteredSearch.filter(i => allLikesAnotherUsers.every(te => te.movieId !== i.id))));
+      localStorage.setItem('filtered', JSON.stringify(filteredSearch));
 
-      setApiFilteredFilms(filteredSearch.filter(i => allLikesAnotherUsers.every(te => te.movieId !== i.id)))
+      setApiFilteredFilms(filteredSearch)
 
   }
 
@@ -162,7 +157,7 @@ function App() {
   const durationFilter = (checked) => {
     const filteredMovies = JSON.parse(localStorage.getItem('filtered'))
 
-    if (!checked && filteredMovies) {
+    if (checked === '1' && filteredMovies) {
       const shorts = filteredMovies.filter((item) => item.duration <= SHORT_FILMS);
       setApiFilteredFilms(shorts);
     } else {
@@ -172,7 +167,7 @@ function App() {
 
   const savedDurationFilter = (checked) => {
     const savedFiltered = JSON.parse(localStorage.getItem('savedFilter'));
-    if (!checked && savedFiltered) {
+    if (checked === '1' && savedFiltered) {
       const shorts = savedFiltered.filter((item) => item.duration <= SHORT_FILMS);
       setSavedFilteredMovies(shorts);
     } else {
@@ -201,7 +196,7 @@ function App() {
 
   /* Сохранение фильма */
   const handleSaveMovie = (card) => {
-    const liked = allUsersSavedMovies.some((i) =>
+    const liked = localSavedMovies.some((i) =>
       i.movieId === card.id
     );
 
@@ -209,10 +204,9 @@ function App() {
       MainApi.saveMovie(card, jwt)
         .then(res => {
           setLocalSavedMovies([...localSavedMovies, res])
-          setAllUsersSavedMovies([...allUsersSavedMovies, res])
         })
     } else {
-      const cardForDelete = allUsersSavedMovies.find((i) => i.movieId === card.id)
+      const cardForDelete = localSavedMovies.find((i) => i.movieId === card.id)
       handleDeleteMovie(cardForDelete)
     }
   }
@@ -223,7 +217,6 @@ function App() {
       .then(() => {
         setSavedFilteredMovies(savedFilteredMovies.filter((i) => i._id !== card._id))
         setLocalSavedMovies(localSavedMovies.filter(i => i._id !== card._id))
-        setAllUsersSavedMovies(allUsersSavedMovies.filter((i) => i._id !== card._id))
       })
   }
 
@@ -246,12 +239,13 @@ function App() {
     localStorage.removeItem('savedMovies');
     localStorage.removeItem('movieList');
     localStorage.removeItem('data')
+    localStorage.removeItem('savedSearchValue')
+    localStorage.removeItem('savedCheck')
     setCurrentUser(null)
     setIsLoggedIn(false);
     setSavedFilteredMovies([])
     setApiFilteredFilms([])
     setLocalSavedMovies([])
-    setAllLikesAnotherUsers([])
     navigate('/');
   }
 
@@ -286,7 +280,7 @@ function App() {
                   listLength={listLength}
                   durationFilter={durationFilter}
                   handleSearch={handleSearch}
-                  savedMovies={allUsersSavedMovies}
+                  savedMovies={localSavedMovies}
                   movieCards={apiFilteredFilms}
                   onSave={handleSaveMovie}
                   addMovies={addMovies}
