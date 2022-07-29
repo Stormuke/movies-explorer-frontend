@@ -1,14 +1,13 @@
-import cards from "../../utils/moviesConstants";
 import SearchForm from "../SearchForm/SearchForm";
 import MoviesCards from "../MoviesCards/MoviesCards";
-import Preloader from "../Preloader/Preloader";
 
-function Movies() {
-  return(
+function Movies({movieCards, onSave, savedMovies, handleSearch, durationFilter, listLength, addMovies, onDelete, currentUser}) {
+
+  return (
     <>
-      <SearchForm/>
-      <MoviesCards movies={cards}/>
-      <Preloader/>
+      <SearchForm handleSearch={handleSearch} durationFilter={durationFilter}/>
+      <MoviesCards movieCards={movieCards} onSave={onSave} savedMovies={savedMovies} listLength={listLength}
+                   addMovies={addMovies} onDelete={onDelete} currentUser={currentUser}/>
     </>
   )
 }

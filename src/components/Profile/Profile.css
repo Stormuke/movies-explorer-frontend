@@ -56,6 +56,8 @@
   color: rgba(255, 255, 255, 1);
   max-width: 100%;
   text-align: right;
+  outline: none;
+  min-width: 80%;
 }
 
 .profile__submit {
@@ -71,10 +73,21 @@
   transition: opacity 0.2s linear;
 }
 
+.profile__submit_disabled {
+  color: rgba(255, 255, 255, 0.23);
+  cursor: not-allowed;
+}
+
 .profile__submit:hover{
   opacity: 0.6;
   text-decoration: underline;
 }
+
+.profile__submit_disabled:hover {
+  opacity: 1;
+  text-decoration: none;
+}
+
 
 .profile__signout {
   margin: 0 auto;
@@ -84,6 +97,8 @@
   line-height: 16px;
   text-decoration: none;
   cursor: pointer;
+  background: none;
+  border: none;
   transition: opacity 0.2s linear;
 }
 

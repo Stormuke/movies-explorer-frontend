@@ -1,17 +1,25 @@
 import MoviesCard from "../MoviesCard/MoviesCard";
 import "./MoviesCards.css"
+import Preloader from "../Preloader/Preloader";
 
-function MoviesCards({movies}) {
+function MoviesCards({movieCards, onSave, onDelete, savedMovies, listLength, addMovies, currentUser}) {
   return (
-    <section className="cards">
-      {movies.map((card, id) => {
-        return (
-          <div className="cards__container" key={id}>
-            <MoviesCard title={card.title} link={card.link} duration={card.duration} isLiked={card.isLiked} owner={card.owner}/>
-          </div>
+    <section className="container">
+      <div className="cards">
+        {movieCards.map((card, id) => {
+          return (
+            <div className="cards__container" key={card.id ? card.id : id}>
+              <MoviesCard card={card} onSave={onSave} onDelete={onDelete}
+                          savedMovies={savedMovies} currentUser={currentUser}/>
+            </div>
 
-        )
-      })}
+          )
+        }).slice(0, listLength)}
+      </div>
+
+
+      {movieCards.length === 0 ? <p>Введите название фильма в поисковой строке</p> : movieCards.length > listLength &&
+        <Preloader addMovies={addMovies}/>}
     </section>
   )
 }
